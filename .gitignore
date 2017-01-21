@@ -1,0 +1,5 @@
+myvirtualenv
+venv
+*.pyc
+*.swp
+PASSWORDS.txt
