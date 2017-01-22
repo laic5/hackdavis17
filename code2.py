@@ -70,25 +70,11 @@ while currTime < totalTimes:
     cleanedWatson = cleanText(watsonIn)
 
     # COMPARISON FUNCTION
-    countPassage = 0
-    countWatson = 0
-
-    while(countPassage < len(cleanedPassage)): # going through all the words in cleanedPassage list
-        
-        if cleanedPassage[countPassage] == cleanedWatson[countWatson]:
-            countPassage += 1
-            countWatson += 1
-            continue 
-        
-        # there is a mismatch! 
-        if cleanedPassage[countPassage + 1] == cleanedWatson[countWatson + 1]:
-            # this current word is the issue.
-            wrongWords.append(cleanedPassage[countPassage])
-            index = countPassage                           ### change this later to use the index from original passage 
-        else if 
-            
-        # main issue right now is that passage is not clean. there are newlines, punctuation, etc. that would 
-        # not work properly. for now, cleanedPassage should output a clean, lowercase form
+    # assumptions: 
+    # 1. lengths of cleanedPassage and cleanedWatson are the same
+    # 2. the only form of impediment are the hesitations, which are represented by "%HESITATION"
+    
+    for 
         
         print "You pronounced this word wrong: %s\n" %cleanedPassage[index] ###
         excerpt = excerptExtractor(index)
