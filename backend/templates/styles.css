@@ -1,0 +1,21 @@
+html, body
+{
+  height: 100%;
+}
+#upleft { 
+   width:30%; 
+   height: 100%; 
+   background:red; float:left; 
+}
+
+#upright { 
+   width:70%; 
+   height:50%; 
+   background:blue; 
+   float:left
+}
+#below { 
+   width:70%; 
+   height:50%; 
+   background:green;
+}

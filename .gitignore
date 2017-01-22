@@ -2,4 +2,5 @@ myvirtualenv
 venv
 *.pyc
 *.swp
+USERNAMES.txt
 PASSWORDS.txt
