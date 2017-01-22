@@ -35,8 +35,9 @@ def getAnswer():
 def excerptExtractor(ind):
     sideNum = 2
     
-    if len(passageList) < (2 * sideNum + 1):
-        excerpt = passageList # output the whole passage 
+    ## NOTE: Using cleanedPassage right now. when more established, switch to clean original version
+    if len(cleanedPassage) < (2 * sideNum + 1):
+        excerpt = cleanedPassage # output the whole passage 
         return excerpt
     
     beginIndex = ind - sideNum
@@ -46,7 +47,7 @@ def excerptExtractor(ind):
         beginIndex += 1
         endIndex += 1
         
-    excerpt = ' '.join(passageList[beginIndex:endIndex])
+    excerpt = ' '.join(cleanedPassage[beginIndex:endIndex])
     
     return excerpt 
     
@@ -74,35 +75,19 @@ while currTime < totalTimes:
     # 1. lengths of cleanedPassage and cleanedWatson are the same
     # 2. the only form of impediment are the hesitations, which are represented by "%HESITATION"
     
-    for 
+    for ind, word in enumerate(cleanedWatson):
+        if word == "%%HESITATION":
+            # do something
+            wrongWords.append(cleanedPassage[ind])
         
-        print "You pronounced this word wrong: %s\n" %cleanedPassage[index] ###
-        excerpt = excerptExtractor(index)
-        print "It is found in this section of the passage: ...%s...\n" %excerpt # bold misread word, if possible
-        print "This is how you correctly say it!\n"
+            print "Do you need help with this word? %s\n" %cleanedPassage[index] ###
+            excerpt = excerptExtractor(index)
+            print "It is found in this section of the passage: ...%s..." %excerpt # bold misread word, if possible
+            print "This is how you correctly say it!"
         
-        ### INSERT WATSON TEXT TO SPEECH ###
-        print "\n"
+            ### INSERT WATSON TEXT TO SPEECH ###
+            print "\n"
         
-        if countWatson == len(cleanedWatson):
-            break
-            
-        countPassage += 1
-        countWatson += 1
-    
-    # compare cleanedPassage and cleanedWatson now      #########
-    # compare function
-    # if words do not match
-        # find where it is in the original passage 
-        # index = the index of the word from the original passage, "passage"
-        wrongWords.append(passage[index])
-        
-
-
-    # print diagnostics
-    print "Number of words read wrong: %d\n" %len(wrongWords)
-    # later-- add Speed: use clock timer 
-    
     answer = getAnswer()
     if answer == "no":
         print "~~~\n\nThank you for using Booboobear Reading Bot :)"
@@ -112,6 +97,10 @@ while currTime < totalTimes:
     currTime += 1
     n += passageDivider 
     watfile.close()
+    
+# print diagnostics
+print "Number of words read wrong this session: %d\n" %len(wrongWords)
+# later-- add Speed: use clock timer 
     
     
     
