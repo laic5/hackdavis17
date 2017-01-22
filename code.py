@@ -13,7 +13,7 @@ wrongWords = []
 
 # need to clean the passage so it will be easier to compare
 # input: string list OR string 
-# output: list of words 
+# output: list of words, lower-case 
 def cleanText(text, isList = False):
 
     if isList == True:
@@ -35,8 +35,8 @@ def getAnswer():
 def excerptExtractor(ind):
     sideNum = 2
     
-    if len(passage) < (2 * sideNum + 1):
-        excerpt = passage[:] # output the whole passage 
+    if len(passageList) < (2 * sideNum + 1):
+        excerpt = passageList # output the whole passage 
         return excerpt
     
     beginIndex = ind - sideNum
@@ -46,7 +46,7 @@ def excerptExtractor(ind):
         beginIndex += 1
         endIndex += 1
         
-    excerpt = passage[beginIndex:endIndex]
+    excerpt = ' '.join(passageList[beginIndex:endIndex])
     
     return excerpt 
     
@@ -57,15 +57,17 @@ while currTime < totalTimes:
     else:
         passage = bookText[n:(n + passageDivider - 1)]
         
+    passageList = passage.split()
+        
     cleanedPassage = cleanText(passage, isList = True)
 
-    with open(WATSON_FILE, 'r') as watfile:
+    with open(WATSON_FILE, 'r') as watfile:             #########
         watsonIn = watfile.read()
         
     cleanedWatson = cleanText(watsonIn)
 
     
-    # compare cleanedPassage and cleanedWatson now 
+    # compare cleanedPassage and cleanedWatson now      #########
     # compare function
     # if words do not match
         # find where it is in the original passage 

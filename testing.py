@@ -1,5 +1,5 @@
 
-with open('alice/chp1.txt', 'r') as f:
+with open('backend/alice/chp1.txt', 'r') as f:
     bookText = f.readlines() # list, each item is a paragraph
 
     
@@ -25,17 +25,18 @@ wrongWords = []
 
 while currTime < totalTimes:
     if n + passageDivider > len(bookText):
-        passage = bookText[n:]
+        passage = str(bookText[n:])
     else:
-        passage = bookText[n:(n + passageDivider - 1)]
-    print "I love Varun x%d times\n" %n  
-    print passage
+        passage = str(bookText[n:(n + passageDivider - 1)])
+    print "I love Varun x%d times\n" %(n+100)  
+    passageList = passage.split()
+        
     
     n += passageDivider 
     currTime += 1
     
     answer = getAnswer()
     if answer == "no":
-        print "\nThank you for using Booboobear Reading Bot :)"
+        print "~~~\n\nThank you for using Booboobear Reading Bot :)"
         break
 f.close()
