@@ -2,7 +2,7 @@
 with open('backend/alice/chp1.txt', 'r') as f:
     bookText = f.readlines() # list, each item is a paragraph
 
-    
+
 def getAnswer():
     answer = raw_input("Do you wish to continue? (Enter 'yes' or 'no') ")
     while answer != "yes" and answer != "no":
@@ -11,9 +11,9 @@ def getAnswer():
             break
         print answer
     return answer
-        
+
 n = 0
-passageDivider = 3      
+passageDivider = 3
 currTime = 0
 totalTimes = (len(bookText) + passageDivider - 1)/ passageDivider
 #tokenizer = RegexpTokenizer(r'\w+')
@@ -28,13 +28,13 @@ while currTime < totalTimes:
         passage = str(bookText[n:])
     else:
         passage = str(bookText[n:(n + passageDivider - 1)])
-    print "I love Varun x%d times\n" %(n+100)  
+    print "I love Varun infinity + x%d times\n" %(n+100)
     passageList = passage.split()
-        
-    
-    n += passageDivider 
+
+
+    n += passageDivider
     currTime += 1
-    
+
     answer = getAnswer()
     if answer == "no":
         print "~~~\n\nThank you for using Booboobear Reading Bot :)"
