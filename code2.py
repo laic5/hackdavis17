@@ -1,6 +1,6 @@
 from nltk.tokenize import RegexpTokenizer
 
-with open('chp1.txt', 'r', encoding='utf-8') as f:
+with open('chp1.txt', 'r') as f:
     bookText = f.readline() # list, each item is a paragraph
 
 n = 1
@@ -65,8 +65,7 @@ while currTime < totalTimes:
         
     cleanedPassage = cleanText(passage, isList = True)
 
-    with open(WATSON_FILE, 'r') as watfile:             #########
-        watsonIn = watfile.read()
+    ### watsonIn is the string received from Watson on your side
         
     cleanedWatson = cleanText(watsonIn)
 
