@@ -1,6 +1,6 @@
-html, body
-{
-  height: 100%;
+html, body{
+ height: 100%;
+ font: ;
 }
 #upleft { 
    width:30%; 
@@ -10,12 +10,13 @@ html, body
 
 #upright { 
    width:70%; 
-   height:50%; 
+   height:100%; 
    background:blue; 
    float:left
 }
-#below { 
-   width:70%; 
-   height:50%; 
+#col-md-8 { 
+   width: 10%; 
+   height: 10%; 
    background:green;
 }
+

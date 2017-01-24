@@ -1,18 +1,66 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> Booboobeareader </title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+ <title> Booboobeareader </title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+			integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+			crossorigin="anonymous">
+		</script>
+  <script type="text/javascript"> 
+	function upload()
+  {  
+    //var formData = new FormData();
+    //formData.append('txt', $('input[type=txt]')[0].files[0]); 
+    var fileInput = document.getElementById('txt');
+    var file = fileInput.files[0];
+    var formData = new FormData();
+    formData.append('content', file);
+
+    $.ajax({
+        url: "http://localhost:5000/book",
+        //url: "https://requestb.in/1n05iyw1",
+        type: "POST",
+        data: formData,
+        dataType: 'txt',
+        contentType: false,
+        processData: false,  
+        success: function(response){
+          console.log('success')
+          console.log(response)
+          console.log($("#output")); 
+         }
+      })};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+<style>
+body {font-family: "Raleway", Arial, sans-serif}
+.w3-row img {margin-bottom: -8px}
+</style>
   </head>
-  <body>
-    <div id="upleft">
-      <p>Click here to upload! </p>
-    </div>
-    <div id="upright">
-      <p>Press to record!</p>
-    </div>
-    <div id="below">
+<body>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-content" style="max-width:1500px">
+
+  <!-- Header -->
+  <header class="w3-container w3-xlarge w3-padding-24">
+    <a href="#" class="w3-left w3-btn w3-white">Reader Bear</a>
+    <a href="https://devpost.com/software/reader-assist" class="w3-right w3-btn w3-white">About</a>
+  </header>
+	<div id="w3-col.m4">
+				Upload A Chapter: <input type="file" name="txt" id="txt">
+				<div id="txt-preview">Selct a Book to read as a txt file...</div>
+        <button onclick="upload()" type="button" id="send">Start Listening!></button>
+		</div>
+    <div id="w3-display-right">
       <p>Here's how you did</p>
+      <div id="output">Result
+      
+      </div>
     </div>
-  </body>
+    </div>
+</body>
 </html>

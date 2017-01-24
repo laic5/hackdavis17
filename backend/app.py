@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, url_for
+from flask_cors import CORS, cross_origin
 import speech_recognition as sr
 import time
 import math
@@ -7,6 +8,7 @@ from nltk.tokenize import RegexpTokenizer
 wrongWords = []
 
 app = Flask(__name__)
+CORS(app)
 
 out = []
 wholeParagraphs = []
@@ -69,14 +71,20 @@ def callListen():
     spokenParagraphs = 'asdfasdf'
     writtenParagraphs = 'asdfasdf'
     speakCount = 0
+    paraList = ''
     while speakCount < len(out):
         spokenParagraphs = speak()
         writtenParagraphs = getXParagraph(speakCount)
-        #compareOneSpokenVsText(spokenParagraphs.split(), writtenParagraphs.split())
+        hesitatedPhrases = compareOneSpokenVsText(spokenParagraphs.split(), writtenParagraphs.split())
+        paraList = ' '.join(hesitatedPhrases)
         speakCount += 1
-        print(speakCount, len(out))
-
-    return spokenParagraphs + '\n' + writtenParagraphs
+        print("Is this it?!!?!?!?!??! is this true love?!")
+        print(paraList)
+        #print(speakCount, len(out))
+    if paraList is None:
+        return 'Great Job'
+    else:
+        return 'Errors: ' + paraList
 
 #post a text file containing a chapter
 @app.route('/book', methods=['POST'])
@@ -84,7 +92,7 @@ def book():
     a = request.files['content']
     wholeText = a.readlines()
     processedReadText(wholeText)
-
+    print(str(wholeText))
     return redirect(url_for('callListen'))
     #return renderText(wholeText)
 
@@ -130,10 +138,24 @@ def getExpectedWPM(age):
 
 def compareOneSpokenVsText(spoken, written):
     numHesitations = 0
+    hesitatedWords = []
+    hesitatedPhrase = []
+    print(spoken, written)
+
+    #spoken, written = makeStringLengthsEqual(spoken, written)
+    print(spoken, written)
     for writtenIndex, word in enumerate(written):
+        if numHesitations + writtenIndex > len(spoken) - 1:
+            print "spoken was too short"
+            break
+       # if spoken[writtenIndex + numHesitations] == "BOOBOOBEAR" or written[writtenIndex] == "BOOBOOBEAR":
+            #hesitatedWords.append("")
         if spoken[writtenIndex + numHesitations] == HESITATION:
             numHesitations += 1
-            print(written[writtenIndex])
+            hesitatedWords.append(written[writtenIndex])
+            #hesitatedPhrase.append(excerptExtractor(written, writtenIndex))
+
+    return hesitatedWords
 
     #if len(spoken) != len(written):
     #    tup = makeStringLenghtsEqual(spoken, written)
@@ -142,17 +164,32 @@ def compareOneSpokenVsText(spoken, written):
 
     #findHesitations(spoken, written)
 
-def makeStringLenghtsEqual(spoken, written):
+def makeStringLengthsEqual(spoken, written):
     sgreater = len(spoken) - len(written)
     wgreater = len(written) - len(spoken)
-
-    if sgreater > 0:
-        alteredSpoken = spoken + sgreater * ' BOOBOOBEAR '
-        return (alteredSpoken, written)
+    alteredSpoken = spoken
+    alteredWritten = written
+    randomVariable = 0
 
     if wgreater > 0:
-        alteredWritten = written + wgreater * ' BOOBOOBEAR '
-        return (alteredWritten, spoken)
+        while randomVariable < wgreater:
+            randomVariable += 1
+            alteredSpoken.append("BOOBOOBEAR")
+        #alteredSpoken = spoken.extend(sgreater * [' BOOBOOBEAR '])
+        print("I LOVE YOU VARUN")
+        print(alteredSpoken)
+        print(written)
+        return (alteredSpoken, written)
+
+    if sgreater > 0:
+        while randomVariable < sgreater:
+            randomVariable += 1
+            alteredWritten.append("BOOBOOBEAR")
+        #alteredWritten = written.extend(wgreater * [' BOOBOOBEAR '])i
+        print("I LOVE YOU SO MUCH")
+        print(spoken)
+        print(alteredWritten)
+        return (spoken, alteredWritten)
 
 def findHesitations(spoken, written):
     for ind, word in enumerate(cleanedWatson):
@@ -166,11 +203,11 @@ def findIndexOfWordInString(sentence):
         if keyword == word:
             return (i+1)
 
-def excerptExtractor(writtenText, hesitationIndex):
-    sideNum = 2
-    cleanedPassage = writtenText.split()
+def excerptExtractor(written, hesitationIndex):
+    sideNum = 1
+    cleanedPassage = written
+    cleanedPassage[hesitationIndex] = cleanedPassage[hesitationIndex].upper()
 
-    ## NOTE: Using cleanedPassage right now. when more established, switch to clean original version
     if len(cleanedPassage) < (2 * sideNum + 1):
         excerpt = cleanedPassage # output the whole passage
         return excerpt
@@ -183,6 +220,7 @@ def excerptExtractor(writtenText, hesitationIndex):
         endIndex += 1
 
     excerpt = ' '.join(cleanedPassage[beginIndex:endIndex])
+
 
     return excerpt
 

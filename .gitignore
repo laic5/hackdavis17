@@ -4,3 +4,4 @@ venv
 *.swp
 USERNAMES.txt
 PASSWORDS.txt
+.DS_STORE
